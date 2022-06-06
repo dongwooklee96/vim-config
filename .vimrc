@@ -87,3 +87,9 @@ set tags=/home/reallinux/git/linux/tags
 set csprg=/usr/local/bin/cscope
 cs add /home/reallinux/git/linux/cscope.out
 
+" BUFFER 관련 명령어
+nnoremap <S-n> :enew<Enter>         " 새로운 버퍼를 연다
+nnoremap <S-d> :bp <BAR> bd #<Enter> " 현재 버퍼를 닫고 이전 버퍼로 이동
+nnoremap <F5> :bprevious!<Enter>    " 이전 버퍼로 이동
+nnoremap <F6> :bnext!<Enter>        " 다음 버퍼로 이동
+
