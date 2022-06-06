@@ -76,6 +76,12 @@ nmap <C-J> <C-W>j
 nmap <C-K> <C-W>k
 nmap <C-L> <C-W>l
 
+" SHFIT + 이동키로 창 분할 이동
+nnoremap <S-j> <c-w>j
+nnoremap <S-k> <c-w>k
+nnoremap <S-h> <c-w>h
+nnoremap <S-l> <c-w>l
+
 " CTAGS / CSCOPE
 set tags=/home/reallinux/git/linux/tags
 set csprg=/usr/local/bin/cscope
