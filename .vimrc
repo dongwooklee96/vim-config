@@ -12,16 +12,27 @@ Plugin 'tpope/vim-fugitive' " vim with git command(e.g., Gdiff)
 Plugin 'vim-airline/vim-airline' " vim status bar
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'blueyed/vim-diminactive'
+Plugin 'hari-rangarajan/CCTree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+Plugin 'voldikss/vim-floaterm'
+Plugin 'skywind3000/asyncrun.vim'
 
 call vundle#end()
+
+filetype plugin indent on    " required
 
 set t_Co=256
 
 " for jellybeans
 colorscheme jellybeans
 
+" for NERDTree
+map <F1> :NERDTreeToggle<cr>
+
 " for taglist
-nmap <F8> :Tagbar<CR>
+nmap <F7> :Tagbar<CR>
 
 " for indent guide
 let g:indentguides_spacechar = '┆'
@@ -45,11 +56,15 @@ syntax enable
 filetype indent on
 highlight Comment term=bold cterm=bold ctermfg=4
 
+set smartindent
 set bg=dark
 set autoindent
 set cindent
-set tabstop=8
-set shiftwidth=8
+set tabstop=4
+set shiftwidth=4
+
+set expandtab
+set et
 
 set nu
 
@@ -88,8 +103,47 @@ set csprg=/usr/local/bin/cscope
 cs add /home/reallinux/git/linux/cscope.out
 
 " BUFFER 관련 명령어
-nnoremap <S-n> :enew<Enter>         " 새로운 버퍼를 연다
-nnoremap <S-d> :bp <BAR> bd #<Enter> " 현재 버퍼를 닫고 이전 버퍼로 이동
+nnoremap <C-n> :enew<Enter>         " 새로운 버퍼를 연다
+nnoremap <C-d> :bp <BAR> bd #<Enter> " 현재 버퍼를 닫고 이전 버퍼로 이동
 nnoremap <F5> :bprevious!<Enter>    " 이전 버퍼로 이동
 nnoremap <F6> :bnext!<Enter>        " 다음 버퍼로 이동
+
+" last modified location
+if has("autocmd")
+      au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+" fzf
+nnoremap <C-p> :Files<Cr>
+nnoremap <space>f :Ag<CR>
+
+" floatterm
+nnoremap <silent> <F12> :FloatermToggle<CR>
+tnoremap <silent> <F12> <C-\><C-n>:FloatermToggle<CR>
+
+" vim-fugitive
+nnoremap <silent> <F2> :Git blame --date short<CR>
+nnoremap <space>gd :Gvdiffsplit<CR>
+
+" change swap & undo
+set undofile
+set undolevels=1000         " How many undos
+set undoreload=10000        " number of lines to save for undo
+
+set backup                        " enable backups
+set swapfile                      " enable swaps
+set undodir=$HOME/.vim/tmp/undo     " undo files
+set backupdir=$HOME/.vim/tmp/backup " backups
+set directory=$HOME/.vim/tmp/swap   " swap files
+
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
 
