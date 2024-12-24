@@ -147,3 +147,29 @@ if !isdirectory(expand(&directory))
     call mkdir(expand(&directory), "p")
 endif
 
+" 일반 모드와 비주얼 모드에서 Ctrl+/ 매핑
+" 참고: 터미널에서는 Ctrl+/가 Ctrl+_로 인식됨
+noremap <C-_> :call ToggleComment()<CR>
+vnoremap <C-_> :call ToggleComment()<CR>
+
+function! ToggleComment()
+    " 현재 파일 타입에 따른 주석 문자 설정
+    let comment_char = '#'
+    if &filetype == 'cpp' || &filetype == 'javascript' || &filetype == 'java' || &filetype == 'php'
+        let comment_char = '//'
+    elseif &filetype == 'vim'
+        let comment_char = '"'
+    endif
+
+    " 현재 라인의 첫 번째 non-blank 문자 확인
+    let line = getline('.')
+    let has_comment = match(line, '^\s*' . comment_char) >= 0
+
+    if has_comment
+        " 주석 제거
+        execute ':s/^\(\s*\)' . comment_char . '\s\?/\1/'
+    else
+        " 주석 추가
+        execute ':s/^\(\s*\)/\1' . comment_char . ' /'
+    endif
+endfunction
